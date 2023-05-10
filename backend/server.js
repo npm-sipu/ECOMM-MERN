@@ -1,7 +1,8 @@
 import express from "express";
 import dotenv from "dotenv";
 import connectDb from "./config/db.js";
-import productRouter from "./routes/productRoutes.js";
+import productRoutes from "./routes/productRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 import { errorHandler, notFound } from "./middlewares/errorMiddleware.js";
 import cors from "cors";
 
@@ -10,6 +11,8 @@ dotenv.config();
 connectDb();
 
 const app = express();
+
+app.use(express.json());
 
 app.use(
   cors({
@@ -21,7 +24,8 @@ app.get("/", (req, res) => {
   res.send("api is running");
 });
 
-app.use("/api/products", productRouter);
+app.use("/api/products", productRoutes);
+app.use("/api/users", userRoutes);
 
 app.use(notFound);
 
